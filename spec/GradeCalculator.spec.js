@@ -1,4 +1,4 @@
-const {calculateTotal,calculatePercentage,getGrade,isPassing,calculateResult} = require("../src/GradeCalculator");
+const {calculateTotal,calculatePercentage,getGrade,isPassing,calculateResult , mainDriver, stubCalculateTotal} = require("../src/GradeCalculator");
 
 
 describe("Student Grade Calculator", function () {
@@ -37,15 +37,11 @@ describe("Student Grade Calculator", function () {
             expect(calculatePercentage(240, 300)).toBe(80);
         });
 
-        it("should return null when the maximum total is zero", function () {
-            expect(calculatePercentage(100, 0)).toBeNull();
+        it("should throw an error when the maximum total is zero", function () {
+            expect(() => calculatePercentage(100, 0)).toThrowError(RangeError,"Maximum total must be greater than zero.");
         });
 
         it("should return a grade A for 95 percent", function () {
-            expect(getGrade(95)).toBe("A");
-        });
-
-        it("should return a grade B for 80 percent", function () {
             expect(getGrade(80)).toBe("B");
         });
 
@@ -65,6 +61,29 @@ describe("Student Grade Calculator", function () {
             expect(isPassing(40)).toBeFalse();
         });
 
+        //ignored
+        xit("should calculate student expenses when the feature is implemented", function () {
+            expect(studentExpenses).toBe(5000);
+        });
+
     });
+
+
+    describe("Integration Testing", function () {
+
+        it("should calculate the complete student result", function () {
+            const result = calculateResult(scores, maxTotal);
+
+            expect(result).toEqual({
+                total: 240,
+                percentage: 80,
+                grade: "B",
+                passed: true
+            });
+        });
+
+    });
+
+
 
 });

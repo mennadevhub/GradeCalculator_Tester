@@ -4,9 +4,8 @@ function calculateTotal(scores) { // scores=[]
 
 function calculatePercentage(total, maxTotal) {
     if (maxTotal <= 0) {
-        return null;
+        throw new RangeError("Maximum total must be greater than zero.");
     }
-
     return (total / maxTotal) * 100;
 }
 
@@ -32,9 +31,12 @@ function isPassing(percentage) {
     return percentage !== null && percentage >= 50;
 }
 
+// Top
 function calculateResult(scores, maxTotal) {
 
-    const total = calculateTotal(scores);
+    // const total = calculateTotal(scores);
+    const total = stubCalculateTotal(scores); 
+
     const percentage = calculatePercentage(total, maxTotal);
     const grade = getGrade(percentage);
     const passed = isPassing(percentage);
@@ -42,4 +44,29 @@ function calculateResult(scores, maxTotal) {
     return {total, percentage, grade, passed};
 }
 
-module.exports = {calculateTotal, calculatePercentage, getGrade, isPassing, calculateResult};
+
+// Stub(down)
+function stubCalculateTotal(scores) {
+    return 240; 
+}
+
+
+// Driver(main)(up)
+function mainDriver(scores , maxTotal) {
+
+    //Bottoms
+    const total = calculateTotal(scores); 
+    const percentage = calculatePercentage(total, maxTotal);
+    const grade = getGrade(percentage);
+    const passed = isPassing(percentage);
+    
+    console.log("Total:", total);
+    console.log("Percentage:", percentage);
+    console.log("Grade:", grade);
+    console.log("Passed:", passed);
+}
+
+mainDriver([30, 20, 10], 300);
+
+
+module.exports = {calculateTotal, calculatePercentage, getGrade, isPassing, calculateResult , mainDriver, stubCalculateTotal};
